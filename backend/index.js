@@ -1,22 +1,28 @@
-const express = require('express')
+const express = require('express');
 require('dotenv').config();
 const PORT = process.env.PORT || 4000;
 const app = express();
-const connectDB=require('./config/db')
-const notesRoutes=require('./routes/notes')
-//db connection
+
+const connectDB = require('./config/db');
+const notesRoutes = require('./routes/notes');
+const loginRoutes = require('./routes/login');
+
+// DB connection
 connectDB();
 
-//express parser
-app.use(express.json())
+// Express JSON parser middleware
+app.use(express.json());
 
-//router ids
-app.use('/notes',notesRoutes)
+// Routes
+app.use('/notes', notesRoutes);
+app.use('/login', loginRoutes);
 
-app.get('/', (req,res)=> {
-    res.send("helo this is route")
-    })
+// Default route
+app.get('/', (req, res) => {
+    res.send("Hello, this is the root route");
+});
 
-app.listen(PORT, (req, res) => {
-    console.log("Server started")
-})
+// Start the server
+app.listen(PORT, () => {
+    console.log(`Server started on port ${PORT}`);
+});
