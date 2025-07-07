@@ -3,6 +3,16 @@ const router = express.Router();
 const bcrypt = require('bcryptjs'); // For password hashing
 const Login = require('../models/Login'); // Mongoose model
 
+router.get('/logindata', async (req, res) => {
+    try {
+            const showdata=await Login.find();
+            res.status(200).json(showdata);
+
+    }catch(err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
 router.post('/loginusername', async (req, res) => {
     const { username, password } = req.body;
 
@@ -14,7 +24,8 @@ router.post('/loginusername', async (req, res) => {
         // Create user with hashed password
         const logindata = new Login({
             username: username,
-            password: hashedPassword    
+            password: hashedPassword,
+            role: 'user' // Default role, can be changed later
         });
 
         // Save to database

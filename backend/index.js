@@ -6,6 +6,7 @@ const app = express();
 const connectDB = require('./config/db');
 const notesRoutes = require('./routes/notes');
 const loginRoutes = require('./routes/login');
+const verifyToken = require('./middlewares/authmiddleware');
 
 // DB connection
 connectDB();
@@ -14,7 +15,7 @@ connectDB();
 app.use(express.json());
 
 // Routes
-app.use('/notes', notesRoutes);
+app.use('/notes',verifyToken,verifyToken.isAdmin, notesRoutes);
 app.use('/login', loginRoutes);
 app.use('/signin', require('./routes/signin'));
 
