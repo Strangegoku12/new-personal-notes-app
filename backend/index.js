@@ -16,6 +16,7 @@ app.use(express.json());
 // Routes
 app.use('/notes', notesRoutes);
 app.use('/login', loginRoutes);
+app.use('/signin', require('./routes/signin'));
 
 // Default route
 app.get('/', (req, res) => {
