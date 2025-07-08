@@ -1,0 +1,6 @@
+<p>login works!</p>
+<form (submit)="loginform.value" [formGroup]="loginform">
+    <input formControlName="username" placeholder="Username">
+    <input formControlName="password" type="password" placeholder="Password">
+    <button (click)="onSubmit()" type="submit">Login</button>
+</form>
