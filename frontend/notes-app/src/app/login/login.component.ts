@@ -1,38 +1,43 @@
 import { Component } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, Validators, ReactiveFormsModule, FormGroup } from '@angular/forms';
 import { AuthApiService } from '../../services/auth-api.service';
+import { CommonModule } from '@angular/common';
+import { HotToastService } from '@ngxpert/hot-toast';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule,CommonModule],
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css'] // typo fixed: styleUrl → styleUrls
+  styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-  loginform: ReturnType<FormBuilder['group']>;
+  loginform: FormGroup;
 
-  constructor(private fb: FormBuilder,private _loadlogin:AuthApiService) {
+  constructor(private fb: FormBuilder) {
     this.loginform = this.fb.group({
-      username: [''],
-      password: ['']
+      username: ['', Validators.required],
+      password: ['', Validators.required]
     });
   }
-
- logindata() {
-  this._loadlogin.loginapi(this.loginform.value).subscribe({
-    next: (res) => {
-      console.log("Login successful:", res);
-      // maybe navigate or show success
-    },
-    error: (err) => {
-      console.log("API error:", err);
-      // show an error message to user
-    }
-  });
-}
+  
 
   onSubmit() {
-    console.log(this.loginform.value);
+        this.toast.warning('Boo!');
+
+    if (this.loginform.invalid) {
+      console.log('Form is invalid');
+      return;
+    }
+
+    this._loadlogin.loginapi(this.loginform.value).subscribe({
+      next: (res) => {
+        console.log("Login successful:", res);
+            this.toast.warning('Boo!');
+      },
+      error: (err) => {
+        console.error("API error:", err);
+      }
+    });
   }
 }

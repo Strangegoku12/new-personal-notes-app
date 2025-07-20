@@ -9,7 +9,7 @@ export class AuthApiService {
 
   constructor(private _http:HttpClient) {}
 loginapi(logindatas: any): Observable<any> {
-  const url = 'http://localhost:4000/login/logindata';
+  const url = 'http://localhost:4000/login/loginusername';
   return this._http.post<any>(url, logindatas)
     .pipe(
       catchError((error) => {
